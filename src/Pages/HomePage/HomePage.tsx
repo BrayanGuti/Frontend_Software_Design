@@ -8,7 +8,7 @@ const Header: React.FC = () => (
         <MapPin className="h-8 w-8" />
         <span className="ml-2 text-2xl font-bold">Tour Mate</span>
       </div>
-      <nav>
+      <nav className="flex items-center space-x-6">
         <ul className="flex space-x-6">
           {['Inicio', '¿Cómo Funciona?', 'Características', 'Contacto'].map((item) => (
             <li key={item}>
@@ -18,11 +18,18 @@ const Header: React.FC = () => (
             </li>
           ))}
         </ul>
+        <div className="flex space-x-4 ml-8">
+          <button className="bg-transparent text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-blue-700 transition-colors">
+            Iniciar sesión
+          </button>
+          <button className="bg-yellow-400 text-blue-900 px-4 py-2 rounded hover:bg-yellow-300 transition-colors">
+            Registrarse
+          </button>
+        </div>
       </nav>
     </div>
   </header>
 )
-
 const WelcomeSection: React.FC = () => (
   <section className="relative h-[90vh] bg-cover bg-center overflow-hidden" style={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2013/03/12/13/48/view-92860_1280.jpg')" }}>
     <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-teal-800 opacity-30" />
