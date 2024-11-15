@@ -1,5 +1,7 @@
 import React from 'react'
 import { MapPin, Sun, Users, Sliders, Map, ThumbsUp, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom';
+
 
 const Header: React.FC = () => (
   <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg">
@@ -12,19 +14,19 @@ const Header: React.FC = () => (
         <ul className="flex space-x-6">
           {['Inicio', '¿Cómo Funciona?', 'Características', 'Contacto'].map((item) => (
             <li key={item}>
-              <a href="#" className="hover:text-yellow-300 transition-colors">
+              <Link to="/" className="hover:text-yellow-300 transition-colors">
                 {item}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
         <div className="flex space-x-4 ml-8">
-          <button className="bg-transparent text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-blue-700 transition-colors">
+          <Link to='/login' className="bg-transparent text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-blue-700 transition-colors">
             Iniciar sesión
-          </button>
-          <button className="bg-yellow-400 text-blue-900 px-4 py-2 rounded hover:bg-yellow-300 transition-colors">
+          </Link>
+          <Link to='/register' className="bg-yellow-400 text-blue-900 px-4 py-2 rounded hover:bg-yellow-300 transition-colors">
             Registrarse
-          </button>
+          </Link>
         </div>
       </nav>
     </div>
