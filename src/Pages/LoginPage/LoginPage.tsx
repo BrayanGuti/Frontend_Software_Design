@@ -1,23 +1,46 @@
+'use client'
+
 import React, { useState } from 'react'
 import { MapPin, ChevronLeft, Mail, Lock, ArrowRight, Key } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { validateUser } from '../hooks/getUsers'
 
 export default function LoginPage() {
   const [showRecoveryForm, setShowRecoveryForm] = useState(false)
   const [recoveryEmailSent, setRecoveryEmailSent] = useState(false)
   const [recoveryEmail, setRecoveryEmail] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const toggleRecoveryForm = (e: React.MouseEvent) => {
     e.preventDefault()
     setShowRecoveryForm(!showRecoveryForm)
     setRecoveryEmailSent(false)
     setRecoveryEmail('')
+    setError('')
   }
 
   const handleRecoverySubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Aquí iría la lógica para enviar el código de recuperación
     setRecoveryEmailSent(true)
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const result = await validateUser(email, password)
+      if (result.success) {
+        // Redirect to profile page
+        navigate(`/profile/${result.user.user_id}`)
+      } else {
+        setError(result.message)
+      }
+    } catch (error) {
+      setError('Ocurrió un error al intentar iniciar sesión')
+    }
   }
 
   return (
@@ -46,8 +69,13 @@ export default function LoginPage() {
             </p>
           </div>
           <div className="px-6 py-8">
+            {error && (
+              <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+                {error}
+              </div>
+            )}
             <div className={`transition-all duration-500 ease-in-out ${showRecoveryForm ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
-              <form className="space-y-6">
+              <form onSubmit={handleLogin} className="space-y-6">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -61,6 +89,8 @@ export default function LoginPage() {
                       required
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300 sm:text-sm"
                       placeholder="tu@ejemplo.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -77,6 +107,8 @@ export default function LoginPage() {
                       required
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300 sm:text-sm"
                       placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
