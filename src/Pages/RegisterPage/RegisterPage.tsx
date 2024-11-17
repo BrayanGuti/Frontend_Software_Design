@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MapPin, ChevronLeft, Mail, Lock, User, Key } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useRegisterUser } from '../hooks/createUser'
 
 export default function RegisterPage() {
   const [formStage, setFormStage] = useState('register')
@@ -12,6 +13,7 @@ export default function RegisterPage() {
     confirmPassword: '',
   })
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const { registerUser, success } = useRegisterUser()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -27,7 +29,7 @@ export default function RegisterPage() {
     return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasNonalphas
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const newErrors: { [key: string]: string } = {}
 
@@ -43,10 +45,16 @@ export default function RegisterPage() {
 
     if (Object.keys(newErrors).length === 0) {
       if (formStage === 'register') {
-        console.log('Datos de registro:', formData)
-        setFormStage('confirm')
-      } else {
-        console.log('Código de autenticación enviado')
+        await registerUser({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          password: formData.password,
+        })
+
+        if (success) {
+          setFormStage('confirm')
+        }
       }
     }
   }
