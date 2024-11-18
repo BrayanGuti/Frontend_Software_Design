@@ -1,7 +1,7 @@
 export async function validateUser(email: string, password:string) {
   try {
     // Llama al backend para obtener la lista de usuarios
-    const response = await fetch('http://127.0.0.1:8000/api/users/', {
+    const response = await fetch('https://separate-guenna-sergioluserver-ae3215a7.koyeb.app/api/users/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -13,6 +13,7 @@ export async function validateUser(email: string, password:string) {
     }
 
     interface User {
+      user_id: string;
       email: string;
       password_hash: string;
     }

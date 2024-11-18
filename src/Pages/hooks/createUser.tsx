@@ -25,7 +25,7 @@ export function useRegisterUser(): UseRegisterUserResult {
     setSuccess(false)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/users/', {
+      const response = await fetch('https://separate-guenna-sergioluserver-ae3215a7.koyeb.app/api/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

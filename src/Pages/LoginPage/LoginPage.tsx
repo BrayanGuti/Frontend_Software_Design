@@ -29,19 +29,18 @@ export default function LoginPage() {
   }
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const result = await validateUser(email, password)
-      if (result.success) {
-        // Redirect to profile page
-        navigate(`/profile/${result.user.user_id}`)
+      const result = await validateUser(email, password);
+      if (result.success && result.user && result.user.user_id) {
+        navigate(`/profile/${result.user.user_id}`);
       } else {
-        setError(result.message)
+        setError(result.message || 'Ocurrió un error al intentar iniciar sesión');
       }
     } catch (error) {
-      setError('Ocurrió un error al intentar iniciar sesión')
+      setError('Ocurrió un error al intentar iniciar sesión');
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
